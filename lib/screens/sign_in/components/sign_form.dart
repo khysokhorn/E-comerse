@@ -146,7 +146,7 @@ class _SignFormState extends State<SignForm> {
         hintText: "Enter your email",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
     );

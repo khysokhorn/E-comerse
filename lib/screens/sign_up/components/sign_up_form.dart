@@ -7,7 +7,6 @@ import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-
 class SignUpForm extends StatefulWidget {
   @override
   _SignUpFormState createState() => _SignUpFormState();
@@ -18,6 +17,8 @@ class _SignUpFormState extends State<SignUpForm> {
   String? email;
   String? password;
   String? conform_password;
+  late GlobalKey dropdownKey;
+  String? selectedLanguage;
   bool remember = false;
   final List<String?> errors = [];
 
@@ -36,6 +37,13 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    dropdownKey =
+        GlobalKey(); // Init GlobalKey, allows to close the DropdownButton
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
@@ -46,6 +54,59 @@ class _SignUpFormState extends State<SignUpForm> {
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildConformPassFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildPhoneNumber(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildIDCard(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildLocation(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          Container(
+            padding: EdgeInsets.symmetric(
+              vertical: getProportionateScreenWidth(10),
+              horizontal: getProportionateScreenWidth(10),
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(color: kTextColor),
+              borderRadius: BorderRadius.circular(
+                getProportionateScreenWidth(28),
+              ),
+              shape: BoxShape.rectangle,
+
+              // color: kSecondaryColor,
+            ),
+            alignment: Alignment.centerLeft,
+            child: DropdownButton<String>(
+              key: dropdownKey,
+              isDense: false,
+              isExpanded: true,
+              underline: SizedBox(),
+              onChanged: ((value) => {print("Change value $value")}),
+              icon: Icon(
+                Icons.language_outlined,
+                color: kSecondaryColor,
+              ),
+              hint: Text("Select language"),
+              value: selectedLanguage,
+              items: <String>['Khmer', 'English'].map((String value) {
+                return DropdownMenuItem<String>(
+                  onTap: () {},
+                  value: value,
+                  child: ListTile(
+                    title: Text(value),
+                    onTap: () {
+                      setState(() {
+                        print("Hello $value");
+                        Navigator.pop(dropdownKey.currentContext!);
+                        selectedLanguage = value;
+                      });
+                    },
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          SizedBox(height: getProportionateScreenHeight(30)),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -154,6 +215,171 @@ class _SignUpFormState extends State<SignUpForm> {
       decoration: InputDecoration(
         labelText: "Email",
         hintText: "Enter your email",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildUserName() {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      onSaved: (newValue) => email = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kEmailNullError);
+          return "";
+        } else if (!emailValidatorRegExp.hasMatch(value)) {
+          addError(error: kInvalidEmailError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Email",
+        hintText: "Enter your email",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildLastName() {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      onSaved: (newValue) => email = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kEmailNullError);
+          return "";
+        } else if (!emailValidatorRegExp.hasMatch(value)) {
+          addError(error: kInvalidEmailError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Email",
+        hintText: "Enter your email",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildPhoneNumber() {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      onSaved: (newValue) => email = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
+        }
+        return null;
+      },
+      validator: (value) {
+        // if (value!.isEmpty) {
+        //   addError(error: kEmailNullError);
+        //   return "";
+        // } else if (!emailValidatorRegExp.hasMatch(value)) {
+        //   addError(error: kInvalidEmailError);
+        //   return "";
+        // }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Phone Number",
+        hintText: "Enter your phone number",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildIDCard() {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      onSaved: (newValue) => email = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
+        }
+        return null;
+      },
+      validator: (value) {
+        // if (value!.isEmpty) {
+        //   addError(error: kEmailNullError);
+        //   return "";
+        // } else if (!emailValidatorRegExp.hasMatch(value)) {
+        //   addError(error: kInvalidEmailError);
+        //   return "";
+        // }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "ID Card",
+        hintText: "Enter your ID card",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildLocation() {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      onSaved: (newValue) => email = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
+        }
+        return null;
+      },
+      validator: (value) {
+        // if (value!.isEmpty) {
+        //   addError(error: kEmailNullError);
+        //   return "";
+        // } else if (!emailValidatorRegExp.hasMatch(value)) {
+        //   addError(error: kInvalidEmailError);
+        //   return "";
+        // }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Location",
+        hintText: "Enter your location",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
